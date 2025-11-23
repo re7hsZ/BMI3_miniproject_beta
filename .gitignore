@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Project specific generated files
+# We keep the data and results folders but ignore large generated files if needed
+# For now, we'll keep them as they are part of the demo output, except maybe large models
+*.pkl
+
+# OS specific
+.DS_Store
+Thumbs.db
