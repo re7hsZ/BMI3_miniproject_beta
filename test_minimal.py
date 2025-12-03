@@ -7,7 +7,7 @@ import traceback
 try:
     # Test 1: Import simulator
     print("Test 1: Importing simulator...")
-    from src.simulator import generate_dataset
+    from src.simulator_optimized2 import generate_dataset
     print("✓ Import successful")
     
     # Test 2: Generate minimal dataset

@@ -2,8 +2,8 @@ import argparse
 import os
 import numpy as np
 from Bio import SeqIO
-from features import extract_features
-from hmm import HMM
+from features_optimized2 import extract_features
+from hmm_optimized2 import HMM
 import pickle
 from sklearn.preprocessing import StandardScaler
 
@@ -69,7 +69,7 @@ def simulate_genome(host_fasta, foreign_fasta, output_fasta, num_islands=5):
     """
     Simulate a genome using real sequences.
     """
-    from simulator import create_genome_from_fasta
+    from simulator_optimized2 import create_genome_from_fasta
     from Bio.SeqRecord import SeqRecord
     from Bio.Seq import Seq
     

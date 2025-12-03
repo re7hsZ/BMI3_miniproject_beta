@@ -1,7 +1,7 @@
 import sys
 import traceback
 try:
-    from src.simulator import generate_dataset
+    from src.simulator_optimized2 import generate_dataset
     print("Import successful.")
     data = generate_dataset(10, 10, 0.4, 0.6)
     print(f"Generated {len(data)} items.")
