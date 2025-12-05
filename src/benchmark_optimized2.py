@@ -294,17 +294,39 @@ def plot_top_foreign_barplot(df: pd.DataFrame, out_path: str, top_k: int = 20) -
         print("No data to plot barplot (empty predictions).")
         return
 
-    fig_width = max(6, len(df_sorted) * 0.4)
+    max_prob = df_sorted["Prob_Foreign"].max()
+    if max_prob <= 0:
+        print("Warning: Prob_Foreign is 0 for all entries; barplot may appear empty.")
+
+    fig_width = max(6, len(df_sorted) * 0.6)
     fig, ax = plt.subplots(figsize=(fig_width, 4))
 
-    x = np.arange(len(df_sorted))
-    ax.bar(x, df_sorted["Prob_Foreign"].values)
+    values = df_sorted["Prob_Foreign"].values
+    values = np.clip(values, 1e-15, None)  # avoid all-zero bars on log scale
 
+    x = np.arange(len(df_sorted))
+    ax.bar(x, values, color="#3b82f6")
+
+    def _shorten_gene_id(gid: str) -> str:
+        gid = str(gid)
+        parts = gid.split("_")
+        if len(parts) >= 2:
+            gid = "_".join(parts[-2:])
+        if "|" in gid:
+            gid = gid.split("|")[-1]
+        return gid
+
+    labels = [_shorten_gene_id(g) for g in df_sorted["GeneID"]]
     ax.set_xticks(x)
-    ax.set_xticklabels(df_sorted["GeneID"].astype(str).values, rotation=90)
+    ax.set_xticklabels(labels, rotation=60, ha="right", fontsize=8)
     ax.set_ylabel("P(Foreign)")
     ax.set_title(f"Top {len(df_sorted)} foreign gene candidates")
 
+    if max_prob < 1e-3:
+        ax.set_yscale("log")
+        ax.set_ylim(1e-15, max(1e-2, max_prob * 10))
+
+    fig.subplots_adjust(bottom=0.3)
     fig.tight_layout()
     fig.savefig(out_path, dpi=300)
     plt.close(fig)

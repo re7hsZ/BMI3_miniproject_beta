@@ -41,8 +41,10 @@ python data/scripts/donor_cds_filtered.py   # writes data/processed/hgt_truth.ts
 
 python src/main_optimized3.py train \
     --host data/processed/host/host_core_train.fasta \
-    --foreign data/processed/donor/donor_core_train.fasta \
-    --output results/real/model_v3.pkl
+    --foreign data/processed/donor/foreign_train.fasta \
+    --output results/real/model_v3.pkl \
+    --bw_iters 10 \
+    --context_weight 0.5
 
 python src/main_optimized3.py predict \
     --input data/processed/host_test_with_hgt.fasta \
